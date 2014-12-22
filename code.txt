@@ -1,0 +1,11 @@
+#Look for Rapberri Pi
+
+sudo nmap -sP 192.168.1.0/24 | awk '/^Nmap/{ip=$NF}/B8:27:EB/{print ip}'
+ 
+ 
+#Install IMG. Chk with gParted the device!!!
+sudo dd bs=4M if=/home/paolo/Temp/2014-09-09-wheezy-raspbian.img  | pv -s 8G | sudo dd of=/dev/sdXYZ
+sudo sync 
+
+#Recursive copy
+cp -avr /home/vivek/letters /usb/backup
