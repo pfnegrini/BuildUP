@@ -246,8 +246,8 @@ then
     mkdir /home/pi/Documents/Sketches
     mkdir /home/pi/Documents/Sketches/Bailey
     cd /home/pi/Documents/Sketches/Bailey
-    git clone https://github.com/pfnegrini/Bailey.git /home/pi/Documents/Sketches
-    sudo cp /home/pi/Documents/Sketches/server/install/robotserver /etc/init.d/robotserver
+    sudo git clone https://github.com/pfnegrini/Bailey.git /home/pi/Documents/Sketches/Bailey
+    sudo cp /home/pi/Documents/Sketches/Bailey/server/install/robotserver /etc/init.d/robotserver
     sudo chmod 0755 /etc/init.d/robotserver
     sudo update-rc.d robotserver defaults
 else
