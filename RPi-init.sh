@@ -71,13 +71,7 @@ df -h
 START=$SECONDS
 echo -n START
 
-
-if [ "$WIFICLIENT" == "Y" ]
-then
-    sudo bash installHS.sh
-else
-    echo "No Wi-Fi client configured"
-fi
+cd BuildUP
 
 #list all installed packages: dpkg --get-selections
 if [ "$STRIPALL" == "Y" ]
@@ -254,6 +248,13 @@ else
     echo "Robotserver NOT configured"
 fi
 
+if [ "$WIFICLIENT" == "Y" ]
+then
+    git clone https://github.com/cymplecy/pispot.git
+    sudo bash pispot/install_hotspot8188CUS.sh
+else
+    echo "No Wi-Fi client configured"
+fi
 
 END=$SECONDS
 echo -n "It took you $(($END - $START)) Seconds "
