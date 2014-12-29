@@ -189,9 +189,9 @@ ctrl_interface_group=0
 ssid=$AP_SSID
 hw_mode=g
 channel=$AP_CHAN
-#wpa=3
-#wpa_passphrase=$AP_PASSPHRASE
-#wpa_key_mgmt=WPA-PSK
+wpa=3
+wpa_passphrase=$AP_PASSPHRASE
+wpa_key_mgmt=WPA-PSK
 #wpa_pairwise=TKIP
 #rsn_pairwise=CCMP
 beacon_int=100
@@ -376,10 +376,10 @@ chmod 755 hostapd
   fi
 #  echo -en "[OK]\n"
 
-  echo "###################INSTALL COMPLETE###############"######
-  echo "The Pi will now be rebooted to activate the changes"
-  read -p "Press [Enter] key to reboot...                    "
-  reboot
+#  echo "###################INSTALL COMPLETE###############"######
+#  echo "The Pi will now be rebooted to activate the changes"
+#  read -p "Press [Enter] key to reboot...                    "
+#  reboot
 # Restart the networking configuration to activate the changes
 #/etc/init.d/networking restart
 
