@@ -115,7 +115,7 @@ sudo rm -rv /usr/share/kde4
 sudo apt-get  remove --purge wolfram-engine
 sudo apt-get remove --purge obconf openbox raspberrypi-artwork xarchiver xinit
 
-} >> log.txt
+} #>> log.txt
 
 else
     echo "No extra packages removed"
