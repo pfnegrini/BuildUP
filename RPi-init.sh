@@ -97,7 +97,6 @@ sudo apt-get purge netsurf* -y
 sudo apt-get purge plymouth* -y
 sudo apt-get remove -y task-desktop
 sudo apt-get autoremove midori
-sudo apt-get autoremove python*
 sudo apt-get autoremove lxde-icon-theme
 sudo apt-get autoremove omxplayer
 
