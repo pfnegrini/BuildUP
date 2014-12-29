@@ -4,11 +4,8 @@
 #by Paul Miller
 #Revisions:
 # 0.1 - 25/04/2013 Initial Release
+# 0.1 SW 01Aug2014 - change to use as Hotspot and not AP
 #
-#wget - https://dl.dropboxusercontent.com/u/1663660/scripts/install-rtl8188cus.sh
-#sudo chown root:root  install-rtl8188cus.sh
-#sudo chmod 755 install-rtl8188cus.sh
-#Then use sudo ./install-rtl8188cus.sh to run the script.
 #
 ###################################################
 
@@ -20,18 +17,23 @@
 CURRENT_AUTHOR="idkpmiller@sip2serve.com"
 
 # Network Interface
-IP4_CONF_TYPE=DHCP
-IP4_ADDRESS=192.168.1.150
+IP4_CONF_TYPE=STATIC
+IP4_ADDRESS=10.0.0.1
 IP4_NETMASK=255.255.255.0
-IP4_GATEWAY=192.168.1.1
+IP4_NETWORK=${IP4_ADDRESS%?}0
+IP4_BROADCAST=${IP4_ADDRESS%?}255
+IP4_GATEWAY=${IP4_ADDRESS}
 IP4_DNS1=8.8.8.8.8
 IP4_DNS2=4.4.4.4
+IP4_STARTADDRESS=${IP4_ADDRESS%?}2
+IP4_ENDADDRESS=${IP4_ADDRESS%?}50
+
 
 # Wifi Access Point
-AP_COUNTRY=NZ
-AP_CHAN=1
-AP_SSID=RPiAP
-AP_PASSPHRASE=PASSWORD
+AP_COUNTRY=GB
+AP_CHAN=11
+AP_SSID=ClassPi
+AP_PASSPHRASE=PASSWORD # not used in practice
 
 
 ###################################################
@@ -53,7 +55,7 @@ fi
 
 # the hosts below are selected for their high availability,
 # if it is more apprioriate to change a host to equal one that is
-# required for the script then simply change the FQDN chosen below
+# required for the script then simply change the FQDN chosen below 
 # to check the availabilty for the host before the script gets underway
 
 host1=google.com
@@ -73,8 +75,8 @@ echo "Hitting return will continue with the default option"
 echo
 echo
 
-read -p "IPv4 DHCP or STATIC? [$IP4_CONF_TYPE]: " -e t1
-if [ -n "$t1" ]; then IP4_CONF_TYPE="$t1";fi
+#read -p "IPv4 DHCP or STATIC? [$IP4_CONF_TYPE]: " -e t1
+#if [ -n "$t1" ]; then IP4_CONF_TYPE="$t1";fi
 
 if [ "$IP4_CONF_TYPE" = "STATIC" ]; then
 
@@ -83,6 +85,12 @@ if [ -n "$t1" ]; then IP4_ADDRESS="$t1";fi
 
 read -p "IPv4 Netmask [$IP4_NETMASK]: " -e t1
 if [ -n "$t1" ]; then IP4_NETMASK="$t1";fi
+
+read -p "IPv4 Network [$IP4_NETWORK]: " -e t1
+if [ -n "$t1" ]; then IP4_NETWORK="$t1";fi
+
+read -p "IPv4 Broadcast [$IP4_BROADCAST]: " -e t1
+if [ -n "$t1" ]; then IP4_BROADCAST="$t1";fi
 
 read -p "IPv4 Gateway Address [$IP4_GATEWAY]: " -e t1
 if [ -n "$t1" ]; then IP4_GATEWAY="$t1";fi
@@ -111,27 +119,28 @@ if [ -n "$t1" ]; then AP_PASSPHRASE="$t1";fi
 # Get Decision from User
 ###################################################
 
-  echo "Access Point"
+  echo "Hotspot Setup"
   echo "======================"
   echo "Please answer the following question."
   echo "Hitting return will continue with the default 'No' option"
   echo
 
 # Point of no return
-  read -p "Do you wish to continue and Setup RPi as an Access Point? (y/n) " RESP
+  read -p "Do you wish to continue and Setup RPi as an Hotspot? (y/n) " RESP
   if [ "$RESP" = "y" ]; then
 
   clear
-  echo "Configuring RPI as an Access Point...."
+  echo "Configuring RPI as an Hotspot Point...."
   # update system
   echo ""
   echo "#####################PLEASE WAIT##################"######
   echo -en "Package list update                                 "
-  apt-get -qq update
+  apt-get -qq update 
   echo -en "[OK]\n"
 
-  echo -en "Adding packages                                     "
-  apt-get -y -qq install hostapd bridge-utils iw > /dev/null 2>&1
+  echo -en "Adding packages ... please wait ....                      "
+  apt-get -y -qq install hostapd bridge-utils iw dnsmasq > /dev/null 2>&1
+  apt-get -y -qq remove ifplugd > /dev/null 2>&1
   echo -en "[OK]\n"
 
 #check  that iw list fails with 'nl80211 not found'
@@ -173,7 +182,6 @@ EOF
   cat <<EOF > /etc/hostapd/hostapd.conf
 #created by $0
 interface=wlan0
-bridge=br0
 driver=rtl871xdrv
 country_code=$AP_COUNTRY
 ctrl_interface=wlan0
@@ -181,11 +189,11 @@ ctrl_interface_group=0
 ssid=$AP_SSID
 hw_mode=g
 channel=$AP_CHAN
-wpa=3
-wpa_passphrase=$AP_PASSPHRASE
-wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP
-rsn_pairwise=CCMP
+#wpa=3
+#wpa_passphrase=$AP_PASSPHRASE
+#wpa_key_mgmt=WPA-PSK
+#wpa_pairwise=TKIP
+#rsn_pairwise=CCMP
 beacon_int=100
 auth_algs=3
 macaddr_acl=0
@@ -250,22 +258,17 @@ if [ "$IP4_CONF_TYPE" = "STATIC" ]; then
 cat <<EOF > /etc/network/interfaces
 #created by $0
 auto lo
-auto br0
-        iface lo inet loopback
-        iface br0 inet static
-        address $IP4_ADDRESS
-        netmask $IP4_NETMASK
-        gateway $IP4_GATEWAY
-        dns-nameservers $IP4_DNS1 IP4_DNS2
-        bridge_fd 1
-        bridge_hello 3
-        bridge_maxage 10
-        bridge_stp off
-        bridge_ports eth0 wlan0
+iface lo inet loopback
 allow-hotplug eth0
-iface eth0 inet manual
+iface eth0 inet dhcp
+
+auto wlan0
 allow-hotplug wlan0
-iface wlan0 inet manual
+iface wlan0 inet static
+   address $IP4_ADDRESS
+   network $IP4_NETWORK
+   netmask $IP4_NETMASK
+   broadcast $IP4_BROADCAST
 EOF
   rc=$?
   if [[ $rc != 0 ]] ; then
@@ -277,6 +280,22 @@ EOF
   fi
 #  echo -en "[OK]\n"
 fi
+
+#create the dnsmasq.conf configuration to match what the user has provided
+  echo -en "Create dnsmasq.conf file                            "
+  cat <<EOF > /etc/dnsmasq.conf
+#created by $0
+interface=wlan0 # To get dnsmasq to listen only on wlan0.
+dhcp-range=$IP4_STARTADDRESS,$IP4_ENDADDRESS,$IP$_NETMASK,12h 
+EOF
+  rc=$?
+  if [[ $rc != 0 ]] ; then
+    echo -en "[FAIL]\n"
+    echo ""
+    exit $rc
+  else
+    echo -en "[OK]\n"
+  fi
 
 #deal with the hostapd binary file
   echo -en "change directory                                    "
@@ -319,7 +338,8 @@ rm -f hostapd
 
 # Download the replacement file
   echo -en "Download the hostapd file                           "
-wget http://dl.dropbox.com/u/1663660/hostapd/hostapd > /dev/null 2>&1
+  wget https://www.dropbox.com/s/pl9tn35ay2b92dc/hostapd
+#> /dev/null 2>&1
   rc=$?
   if [[ $rc != 0 ]] ; then
     echo -en "[FAIL]\n"
@@ -357,19 +377,20 @@ chmod 755 hostapd
 #  echo -en "[OK]\n"
 
   echo "###################INSTALL COMPLETE###############"######
-  echo "The services will now be restarted to activate the changes"
-  read -p "Press [Enter] key to restart services..."
-
-# Restart the networking configuration to acctivate the changes
-/etc/init.d/networking restart
+  echo "The Pi will now be rebooted to activate the changes"
+  read -p "Press [Enter] key to reboot...                    "
+  reboot
+# Restart the networking configuration to activate the changes
+#/etc/init.d/networking restart
 
 # Restart the access point software
-/etc/init.d/hostapd restart
+#/etc/init.d/hostapd restart
 
 ####################################################################
 else
 echo "exiting..."
 fi
 exit 0
+
 
 
