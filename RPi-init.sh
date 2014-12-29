@@ -249,8 +249,9 @@ fi
 
 if [ "$WIFICLIENT" == "Y" ]
 then
-    git clone https://github.com/cymplecy/pispot.git
-    sudo bash pispot/install_hotspot8188CUS.sh
+    #git clone https://github.com/cymplecy/pispot.git
+   #sudo bash pispot/install_hotspot8188CUS.sh
+   sudo bash installHS.sh
 else
     echo "No Wi-Fi client configured"
 fi
