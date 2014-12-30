@@ -85,8 +85,6 @@ apt-get autoremove -y scratch
 apt-get autoremove -y dillo
 apt-get autoremove -y xpdf
 apt-get autoremove -y galculator
-apt-get autoremove -y netsurf-common
-apt-get autoremove -y netsurf-gtk
 apt-get autoremove -y idle-python3.2
 apt-get autoremove -y hicolor-icon-theme
 sudo apt-get purge -y xserver* -y
@@ -193,19 +191,19 @@ echo -e "***** Installing mjpg-streamer *****"
 {
     # Install dev version of libjpeg
     sudo apt-get install -y libjpeg62-dev
-    
+
     # Install cmake
     sudo apt-get install -y cmake
-    
+
     # Download mjpg-streamer with raspicam plugin
     git clone https://github.com/jacksonliam/mjpg-streamer.git ~/mjpg-streamer
-    
+
     # Change directory
     cd ~/mjpg-streamer/mjpg-streamer-experimental
-    
+
     # Compile
     make clean all
-    
+
     # Replace old mjpg-streamer
     sudo rm -rf /opt/mjpg-streamer
     sudo mv ~/mjpg-streamer/mjpg-streamer-experimental /opt/mjpg-streamer
@@ -233,7 +231,7 @@ echo -e "***** Installing express and other packages *****"
     sudo npm install -g safefs
     sudo npm install -g serialport
 } >> log.txt
-    
+
 if [ "$ROBOTSERVER" == "Y" ]
 then
     echo -e "***** Setting up robotserver *****"
