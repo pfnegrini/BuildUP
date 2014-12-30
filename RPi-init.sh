@@ -87,18 +87,18 @@ apt-get autoremove -y netsurf-common
 apt-get autoremove -y netsurf-gtk
 apt-get autoremove -y idle-python3.2
 apt-get autoremove -y hicolor-icon-theme
-sudo apt-get purge xserver* -y
-sudo apt-get purge ^x11 -y
-sudo apt-get purge ^libx -y
-sudo apt-get purge ^lx -y
-sudo apt-get purge samba* -y
-sudo apt-get purge supercollider* -y
-sudo apt-get purge netsurf* -y
-sudo apt-get purge plymouth* -y
+sudo apt-get purge -y xserver* -y
+sudo apt-get purge -y ^x11 -y
+sudo apt-get purge -y ^libx -y
+sudo apt-get purge -y ^lx -y
+sudo apt-get purge -y samba* -y
+sudo apt-get purge -y supercollider* -y
+sudo apt-get purge -y netsurf* -y
+sudo apt-get purge -y plymouth* -y
 sudo apt-get remove -y task-desktop
-sudo apt-get autoremove midori
-sudo apt-get autoremove lxde-icon-theme
-sudo apt-get autoremove omxplayer
+sudo apt-get autoremove -y midori
+sudo apt-get autoremove -y lxde-icon-theme
+sudo apt-get autoremove -y omxplayer
 
 sudo rm -rv /usr/share/icons/*
 sudo rm -rv /opt/vc/src/*
@@ -112,8 +112,8 @@ sudo rm -rv /usr/share/wallpapers
 sudo rm -rv /usr/share/themes
 sudo rm -rv /usr/share/kde4
 
-sudo apt-get  remove --purge wolfram-engine
-sudo apt-get remove --purge obconf openbox raspberrypi-artwork xarchiver xinit
+sudo apt-get  remove -y --purge wolfram-engine
+sudo apt-get remove -y --purge obconf openbox raspberrypi-artwork xarchiver xinit
 
 } #>> log.txt
 
@@ -128,7 +128,7 @@ echo -e "***** Replace syslog *****"
 {
 #Replace rsyslogd with inetutils-syslogd and remove useless logs
 #Reduce memory and cpu usage. We just need a simple vanilla syslogd. Also there is no need to log so many files. Just dump them into /var/log/(cron/mail/messages)
-sudo apt-get -y remove --purge rsyslog
+sudo apt-get -y remove -y --purge rsyslog
 sudo apt-get -y install inetutils-syslogd
 sudo service inetutils-syslogd stop
 
