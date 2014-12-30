@@ -71,6 +71,8 @@ df -h
 START=$SECONDS
 echo -n START
 
+sudo locale-gen en_GB.utf8
+
 cd BuildUP
 
 #list all installed packages: dpkg --get-selections
