@@ -17,3 +17,5 @@ Instructions:
 2. Connect the PI to the Internet
 2. ssh the Pi to find IP: sudo nmap -sP 192.168.1.0/24 | awk '/^Nmap/{ip=$NF}/B8:27:EB/{print ip}'
 3. Aswer the questions and have fun seeing the script working for you
+
+NOTE: this software includes tips found all over the Internet that are public domain. Please contat me in case you think part of it should be attributed.  
