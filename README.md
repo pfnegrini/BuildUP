@@ -1,7 +1,7 @@
 BuildUP
 =======
 
-Script used to optimize Rasbian to run minimal and headless. This is useful as I often experiment with Raspberry and need to ensure setup is consistent. THe script also installs Node, Socket.io, mjpeg streamer and other app to build remote controlled robots.
+Script used to optimize Rasbian to run minimal and headless. This is useful as I often experiment with Raspberry and need to ensure setup is consistent. The script also installs Node, Socket.io, mjpeg streamer and other app to build remote controlled robots.
 
 I believe that stripping down Raspian is better than build up a light distribution as this will allow to benefit from constant updates and community help while still maintaining a light footprint.
 
