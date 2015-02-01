@@ -112,7 +112,7 @@ sudo rm -rv /usr/share/wallpapers
 sudo rm -rv /usr/share/themes
 sudo rm -rv /usr/share/kde4
 
-sudo apt-get  remove -y --purge wolfram-engine
+sudo apt-get remove -y --purge wolfram-engine
 sudo apt-get remove -y --purge obconf openbox raspberrypi-artwork xarchiver xinit
 
 } #>> log.txt
@@ -166,10 +166,11 @@ echo -e "***** Updating system packages *****"
 {
 sudo apt-get -f install
 sudo apt-get update
-sudo apt-get -y upgrade
-sudo apt-get -y dist-upgrade
 sudo apt-get autoremove -y
 sudo apt-get clean
+sudo apt-get -y upgrade
+sudo apt-get -y dist-upgrade
+
 } >> log.txt
 
 
