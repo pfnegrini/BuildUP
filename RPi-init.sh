@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#sudo bash /home/pi/Documents/Sketches/Bailey/server/install/robotinit.sh
 #If errors in updating libraries try:
 #sudo rm /var/lib/dpkg/status
 #sudo touch /var/lib/dpkg/status
+
 asd() {
 cat <<"EOT"
 
@@ -231,7 +231,8 @@ echo -e "***** Installing express and other packages *****"
     sudo npm install -g express-generator
     sudo npm install -g safefs
     sudo npm install -g serialport
-} >> log.txt
+}
+#>> log.txt
 
 if [ "$ROBOTSERVER" == "Y" ]
 then
