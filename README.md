@@ -15,7 +15,7 @@ Areas of research:
 Instructions:
 1. Install Rasbian (sudo dd bs=4M if=/home/paolo/Temp/2014-09-09-wheezy-raspbian.img  | pv -s 3G | sudo dd of=/dev/sdc)
 2. Connect the PI to the Internet
-2. ssh the Pi to find IP: sudo nmap -sP 192.168.1.0/24 | awk '/^Nmap/{ip=$NF}/B8:27:EB/{print ip}'
-3. Aswer the questions and have fun seeing the script working for you
+3. ssh the Pi to find IP: sudo nmap -sP 192.168.1.0/24 | awk '/^Nmap/{ip=$NF}/B8:27:EB/{print ip}'
+4. Aswer the questions and have fun seeing the script working for you
 
 NOTE: this software includes tips found all over the Internet that are public domain. Please contact me in case you think part of it should be attributed.  
