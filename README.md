@@ -5,7 +5,7 @@ Script used to optimize Rasbian to run minimal and headless. This is useful as I
 
 I believe that stripping down Raspian is better than build up a light distribution as this will allow to benefit from constant updates and community help while still maintaining a light footprint.
 
-Be carefull as it will remove a LOT and potentially make the system unstable.
+Be carefull as it will remove a LOT and, depending on how you use your Raspberry-Pi, potentially it mightcause unstability.
 
 Areas of research:
 1. Add a menu to install other applications such as TL server or Bailey 
