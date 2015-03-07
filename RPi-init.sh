@@ -49,7 +49,7 @@ EOT
 asd
 
 echo -n "Want to configure Wi-Fi hotspot? [Y/N]"
-read WIFICLIENT
+read WIFIHOTSPOT
 
 echo -n "Running headless? [Y/N]"
 read HEADLESS
@@ -249,13 +249,13 @@ else
     echo "Robotserver NOT configured"
 fi
 
-if [ "$WIFICLIENT" == "Y" ]
+if [ "$WIFIHOTSPOT" == "Y" ]
 then
     #git clone https://github.com/cymplecy/pispot.git
    #sudo bash pispot/install_hotspot8188CUS.sh
    sudo bash installHS.sh
 else
-    echo "No Wi-Fi client configured"
+    echo "No Wi-Fi hot spot configured"
 fi
 
 END=$SECONDS
