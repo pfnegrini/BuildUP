@@ -114,6 +114,7 @@ sudo rm -rv /usr/share/kde4
 
 sudo apt-get remove -y --purge wolfram-engine
 sudo apt-get remove -y --purge obconf openbox raspberrypi-artwork xarchiver xinit
+sudo apt-get -y purge libx11-6 libgtk-3-common xkb-data lxde-icon-theme raspberrypi-artwork penguinspuzzle
 
 } #>> log.txt
 
@@ -171,7 +172,7 @@ sudo apt-get clean
 sudo apt-get -y upgrade
 sudo apt-get -y dist-upgrade
 
-} >> log.txt
+} #>> log.txt
 
 
 
