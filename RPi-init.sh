@@ -58,10 +58,10 @@ WIFIHOTSPOT=N
 WIFINTW=Y
 WEBSERVER=Y
 
-read -p "RUnning Headless? [$HEADLESS]: " -e t1
+read -p "Running Headless? [$HEADLESS]: " -e t1
 if [ -n "$t1" ]; then HEADLESS="$t1";fi
 
-read -p "Remove extra PAckages? [$STRIPALL]: " -e t1
+read -p "Remove extra Packages? [$STRIPALL]: " -e t1
 if [ -n "$t1" ]; then STRIPALL="$t1";fi
 
 read -p "Optimize system? [$OPTIMIZE]: " -e t1
@@ -85,6 +85,8 @@ START=$SECONDS
 echo -n START
 
 sudo locale-gen en_GB.utf8
+sudo locale-gen de_CH.UTF-8
+sudo update-locale
 
 cd BuildUP
 
@@ -274,9 +276,10 @@ then
 
 WF_SSID=WirelessSSID
 WF_PASSPHRASE=password
+WF_SCRIPTS=Y
 
-read -p "SSID [$SSID]: " -e t1
-if [ -n "$t1" ]; then SSID="$t1";fi
+read -p "SSID [$WF_SSID]: " -e t1
+if [ -n "$t1" ]; then WF_SSID="$t1";fi
 
 read -p "Password [$WF_PASSPHRASE]: " -e t1
 if [ -n "$t1" ]; then WF_PASSPHRASE="$t1";fi
@@ -303,8 +306,8 @@ allow-hotplug wlan0
 iface wlan0 inet dhcp
   wpa-ssid $WF_SSID
   wpa-psk  $WF_PASSPHRASE
-  post-down /usr/local/bin/downWifi.sh
-  pre-up /usr/local/bin/upWifi.sh
+  post-down /etc/network/if-up.d/upWifi.sh
+  pre-up /etc/network/if-down.d/upWifi.sh
 EOF
   rc=$?
   if [[ $rc != 0 ]] ; then
@@ -361,7 +364,6 @@ EOF
   fi
 #  echo -en "[OK]\n"
 
-fi
 
 fi
 
