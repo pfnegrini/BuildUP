@@ -257,6 +257,7 @@ echo -e "***** Installing express and other packages *****"
     sudo npm install -g express-generator
     sudo npm install -g safefs
     sudo npm install -g serialport
+    sudo npm install -g  nconf
 }
 #>> log.txt
 fi
