@@ -57,6 +57,7 @@ FIRMWARE=Y
 WIFIHOTSPOT=N
 WIFINTW=Y
 WEBSERVER=Y
+MJPG=Y
 
 read -p "Running Headless? [$HEADLESS]: " -e t1
 if [ -n "$t1" ]; then HEADLESS="$t1";fi
@@ -79,6 +80,8 @@ if [ -n "$t1" ]; then WIFIHOTSPOT="$t1";fi
 read -p "Install webserver (node.js, socket.io, etc)? [$WEBSERVER]: " -e t1
 if [ -n "$t1" ]; then WEBSERVER="$t1";fi
 
+read -p "Install MJPEG server? [$MJPG]: " -e t1
+if [ -n "$t1" ]; then MJPG="$t1";fi
 
 df -h
 START=$SECONDS
@@ -208,7 +211,7 @@ fi
 
 
 ################# Installing Web server items #################
-if [ "$WEBSERVER" == "Y" ]
+if [ "$MJPG" == "Y" ]
 then
 
 echo -e "***** Installing mjpg-streamer *****"
@@ -235,14 +238,20 @@ echo -e "***** Installing mjpg-streamer *****"
     sudo rm -rf ~/mjpg-streamer
 } >> log.txt
 
+
 # Begin streaming
 #LD_LIBRARY_PATH=/opt/mjpg-streamer/ /opt/mjpg-streamer/mjpg_streamer -i "input_raspicam.so -fps 15 -q 50 -x 640 -y 480" -o "output_http.so -p 9000 -w /opt/mjpg-streamer/www" &
 
+fi
 
+if [ "$WEBSERVER" == "Y" ]
+then
 
 echo -e "***** Installing node *****"
-wget http://node-arm.herokuapp.com/node_latest_armhf.deb
-sudo dpkg -i node_latest_armhf.deb
+sudo su
+curl -sL https://deb.nodesource.com/setup_0.12 | bash -
+apt-get install -y nodejs
+exit
 
 echo -e ""***** Testing Node installation "*****"
 node -v
@@ -257,7 +266,7 @@ echo -e "***** Installing express and other packages *****"
     sudo npm install -g express-generator
     sudo npm install -g safefs
     sudo npm install -g serialport
-    sudo npm install -g  nconf
+    sudo npm install -g nconf
 }
 #>> log.txt
 fi
