@@ -9,7 +9,7 @@ GENKEYS="N"
 read -p "<YOURNANME>@<YOURDEVICE>? [$NAME]: " -e t1
 if [ -n "$t1" ]; then NAME="$t1";fi
 
-read -p "Server you wish to connect [$SERVER]: " -e t1
+read -p "Server you wish to connect user@xxx.xxx.xxx.xxx [$SERVER]: " -e t1
 if [ -n "$t1" ]; then SERVER="$t1";fi
 
 read -p "Generate new keys? [$GENKEYS]: " -e t1
