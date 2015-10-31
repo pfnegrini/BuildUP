@@ -83,6 +83,12 @@ if [ -n "$t1" ]; then WEBSERVER="$t1";fi
 read -p "Install MJPEG server? [$MJPG]: " -e t1
 if [ -n "$t1" ]; then MJPG="$t1";fi
 
+
+
+sudo bash /usr/local/bin/fs-resize.sh
+#sudo bash /usr/local/bin/odroid-utlity.sh
+
+
 df -h
 START=$SECONDS
 echo -n START
@@ -92,9 +98,26 @@ then
  sudo bash setupWiFi.sh
 fi
 
+
+if [ "$HEADLESS" == "Y" ]
+then
+ sudo apt-get remove -y --purge libx11-6
+ sudo apt-get install -y deborphan
+sudo deborphan
+sudo deborphan --guess-all
+
+sudo apt-get remove -y --purge `deborphan`
+sudo apt-get remove -y --purge `deborphan --guess-all`
+sudo apt-get autoremove -y --purge
+
+
+fi
+
+
 sudo locale-gen en_GB.utf8
 sudo locale-gen de_CH.UTF-8
 sudo update-locale
+sudo dpkg-reconfigure locales
 
 #list all installed packages: dpkg --get-selections
 if [ "$STRIPALL" == "Y" ]
@@ -102,7 +125,6 @@ then
 {
 echo "*** Stripping down ***"
 
-apt-get autoremove -y scratch
 apt-get autoremove -y dillo
 apt-get autoremove -y xpdf
 apt-get autoremove -y galculator
@@ -133,9 +155,6 @@ sudo rm -rv /usr/share/wallpapers
 sudo rm -rv /usr/share/themes
 sudo rm -rv /usr/share/kde4
 
-sudo apt-get remove -y --purge wolfram-engine
-sudo apt-get remove -y --purge obconf openbox raspberrypi-artwork xarchiver xinit
-sudo apt-get -y purge libx11-6 libgtk-3-common xkb-data lxde-icon-theme raspberrypi-artwork penguinspuzzle
 
 } #>> log.txt
 
@@ -147,43 +166,9 @@ fi
 
 if [ "$OPTIMIZE" == "Y" ]
 then
-echo -e "***** Optimizing system *****"
-echo -e "***** Replace syslog *****"
-{
-#Replace rsyslogd with inetutils-syslogd and remove useless logs
-#Reduce memory and cpu usage. We just need a simple vanilla syslogd. Also there is no need to log so many files. Just dump them into /var/log/(cron/mail/messages)
-sudo apt-get -y remove -y --purge rsyslog
-sudo apt-get -y install inetutils-syslogd
-sudo service inetutils-syslogd stop
 
-for file in /var/log/*.log /var/log/mail.* /var/log/debug /var/log/syslog; do [ -f "$file" ] && rm -f "$file"; done
-for dir in fsck news; do [ -d "/var/log/$dir" ] && rm -rf "/var/log/$dir"; done
-sudo mkdir -p /etc/logrotate.d
-echo -e "/var/log/cron\n/var/log/mail\n/var/log/messages {\n\trotate 4\n\tweekly\n\tmissingok\n\tnotifempty\n\tcompress\n\tsharedscripts\n\tpostrotate\n\t/etc/init.d/inetutils-syslogd reload >/dev/null\n\tendscript\n}" > /etc/logrotate.d/inetutils-syslogd
-sudo service inetutils-syslogd start
 } >> log.txt
 
-
-#https://extremeshok.com/1081/raspberry-pi-raspbian-tuning-optimising-optimizing-for-reduced-memory-usage/
-
-sudo sed -i '/[2-6]:23:respawn:\/sbin\/getty 38400 tty[2-6]/s%^%#%g' /etc/inittab
-#Optimize / mount
-sudo sed -i 's/defaults,noatime/defaults,noatime,nodiratime/g' /etc/fstab
-
-#Disable IPv6
-echo "net.ipv6.conf.all.disable_ipv6=1" > /etc/sysctl.d/disableipv6.conf
-echo 'blacklist ipv6' >> /etc/modprobe.d/blacklist
-sed -i '/::/s%^%#%g' /etc/hosts
-
-#Replace Deadline Scheduler with NOOP Scheduler
-sed -i 's/deadline/noop/g' /boot/cmdline.txt
-
-#in  /boot/config.txt:
-#gpu_mem=16
-
-echo -e "***** Enabling Turbo *****"
-#700Mhz-1000Mhz dynamic: Scales the cpu frequency according to the load
-echo -e "force_turbo=0" >> /boot/config.txt
 
 
 else
@@ -195,7 +180,7 @@ echo -e "***** Updating system packages *****"
 {
 sudo apt-get -f install
 sudo apt-get update
-sudo apt-get autoremove -y
+sudo apt-get autoremove -y  --purge
 sudo apt-get clean
 sudo apt-get -y upgrade
 sudo apt-get -y dist-upgrade
@@ -207,7 +192,7 @@ sudo apt-get -y dist-upgrade
 if [ "$FIRMWARE" == "Y" ]
 then
 echo -e "***** Updating firmware *****"
-    sudo rpi-update
+sudo bash /usr/local/bin/kernel_update.sh
 else
     echo "Firmware NOT updated"
 fi
