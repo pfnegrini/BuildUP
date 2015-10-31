@@ -30,8 +30,8 @@ iface eth0 inet dhcp
 auto wlan0
 allow-hotplug wlan0
 iface wlan0 inet dhcp
-  wpa-ssid $WF_SSID
-  wpa-psk  $WF_PASSPHRASE
+  wpa-ssid "$WF_SSID"
+  wpa-psk  "$WF_PASSPHRASE"
   post-down /etc/network/if-up.d/upWifi.sh
   pre-up /etc/network/if-down.d/upWifi.sh
 EOF
