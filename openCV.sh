@@ -39,3 +39,7 @@ cd ~/.virtualenvs/cv/lib/python2.7/site-packages/
 ln -s /usr/local/lib/python2.7/site-packages/cv2.so cv2.so
 ln -s /usr/local/lib/python2.7/site-packages/cv.py cv.py
 
+#Needed for python
+sudo apt-get install python-opencv
+
+
