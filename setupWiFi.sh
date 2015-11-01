@@ -31,18 +31,8 @@ auto wlan0
 
 
 iface wlan0 inet dhcp
-<<<<<<< HEAD
-<<<<<<< HEAD
         wpa-ssid "$WF_SSID"
         wpa-psk "$WF_PASSPHRASE"
-=======
-=======
->>>>>>> origin/master
-  wpa-ssid "$WF_SSID"
-  wpa-psk  "$WF_PASSPHRASE"
-  post-down /etc/network/if-up.d/upWifi.sh
-  pre-up /etc/network/if-down.d/upWifi.sh
->>>>>>> origin/master
 EOF
   rc=$?
   if [[ $rc != 0 ]] ; then
