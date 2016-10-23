@@ -189,13 +189,16 @@ then
 echo -e "***** Installing node *****"
 
 sudo apt-get install python build-essential
-wget http://nodejs.org/dist/latest/node-v6.9.1.tar.gz
-tar xzvf node-v6.9.1.tar.gz  
-rm node-v6.9.1.tar.gz  
-cd node-v6.9.1
-./configure --without-snapshot
-make
-sudo make install
+
+echo 'export PATH=$HOME/local/bin:$PATH' >> ~/.bashrc
+. ~/.bashrc
+mkdir ~/local
+mkdir ~/node-latest-install
+cd ~/node-latest-install
+curl http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components=1
+./configure --prefix=~/local
+make install # ok, fine, this step probably takes more than 30 seconds...
+curl https://www.npmjs.org/install.sh | sh
 
 
 exit

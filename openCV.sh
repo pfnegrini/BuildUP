@@ -18,11 +18,10 @@ source ~/.profile
 mkvirtualenv cv
 
 sudo apt-get install -y python2.7-dev
-pip install numpy
 
-wget -O opencv-2.4.10.zip http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.10/opencv-2.4.10.zip/download
-unzip opencv-2.4.10.zip
-cd opencv-2.4.10
+git clone https://github.com/opencv/opencv.git
+#wget -O opencv-2.4.10.zip http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.10/opencv-2.4.10.zip/download
+cd opencv
 
 echo -e "***** Configuring make *****"
 mkdir build
