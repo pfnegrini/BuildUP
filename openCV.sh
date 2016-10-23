@@ -19,6 +19,7 @@ mkvirtualenv cv
 
 sudo apt-get install -y python2.7-dev
 
+wget https://github.com/opencv/opencv/archive/2.4.13.zip -O opencv
 git clone https://github.com/opencv/opencv.git
 #wget -O opencv-2.4.10.zip http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.10/opencv-2.4.10.zip/download
 cd opencv
