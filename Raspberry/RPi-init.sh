@@ -252,8 +252,9 @@ then
 
 echo -e "***** Installing node *****"
 sudo su
-curl -sL https://deb.nodesource.com/setup_0.12 | bash -
-apt-get install -y nodejs
+wget http://node-arm.herokuapp.com/node_archive_armhf.deb
+sudo dpkg -i node_archive_armhf.deb
+
 exit
 
 echo -e ""***** Testing Node installation "*****"

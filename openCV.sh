@@ -1,3 +1,4 @@
+#!/bin/bash
 
 echo -e "***** Setting up  OpenCV *****"
 sudo apt-get install -y build-essential cmake pkg-config

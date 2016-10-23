@@ -4,56 +4,43 @@
 #sudo rm /var/lib/dpkg/status
 #sudo touch /var/lib/dpkg/status
 
+
+
 asd() {
 cat <<"EOT"
-
-
-
- 		         _.---""""""""""--.._
- 		      .="                    "=,
- 		   .-'                          ``-.
- 		  :                                 :
-                 :  RRVIttIti+==iiii++iii++=;:,       :
-                 : IBMMMMWWWWMMMMMBXXVVYYIi=;:,        :
-                 : tBBMMMWWWMMMMMMBXXXVYIti;;;:,,      :
-                 t YXIXBMMWMMBMBBRXVIi+==;::;::::       ,
-                ;t IVYt+=+iIIVMBYi=:,,,=i+=;:::::,      ;;
-                YX=YVIt+=,,:=VWBt;::::=,,:::;;;:;:     ;;;
-                VMiXRttItIVRBBWRi:.tXXVVYItiIi==;:   ;;;;
-                =XIBWMMMBBBMRMBXi;,tXXRRXXXVYYt+;;: ;;;;;
-                 =iBWWMMBBMBBWBY;;;,YXRRRRXXVIi;;;:;,;;;=
-                  iXMMMMMWWBMWMY+;=+IXRRXXVYIi;:;;:,,;;=
-                  iBRBBMMMMYYXV+:,:;+XRXXVIt+;;:;++::;;;
-                  =MRRRBMMBBYtt;::::;+VXVIi=;;;:;=+;;;;=
-                   XBRBBBBBMMBRRVItttYYYYt=;;;;;;==:;=
-                    VRRRRRBRRRRXRVYYIttiti=::;:::=;=
-                     YRRRRXXVIIYIiitt+++ii=:;:::;==
-                     +XRRXIIIIYVVI;i+=;=tt=;::::;:;
-                      tRRXXVYti++==;;;=iYt;:::::,;;
-                       IXRRXVVVVYYItiitIIi=:::;,::;
-                        tVXRRRBBRXVYYYIti;::::,::::
-                         YVYVYYYYYItti+=:,,,,,:::::;
-                         YRVI+==;;;;;:,,,,,,,:::::::
-
-      L I V E    L O N G    A N D     P R O S P E R
-
-
-        +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+
-           |i|n|s|t|a|l|l|e|r|
-        +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+
-
+                     ____
+                   ,'_   |
+ __________________|__|__|__
+<_____                      )                _.------._
+      `-----------,------.-'              ,-'          `-.
+                 |    |  |              ,'                `.
+                ,'    |  |            ,'                    `.
+                |  _,-'  |__         /                        \
+              _,'-'    `.   `---.___|_____________             \
+          .--'  -----.  | _____________________   `-. -----     |
+          |    ___|  |  |                      \  ,- \          |
+          |    ___|  |===========================((|) |         |
+          |       |  |  | _____________________/  `- /          |
+          `--._ -----'  |        _________________,-' -----     |
+               `.-._   ,' __.---'   |                          /
+                |   `-.  |           \                        /
+                `.    |  |            `.                    ,'
+                 |    |  |              `.                ,'
+ _____,----------`-------`-.              `-._        _,-'
+<___________________________)                 `------'
+                   | _|  |
+                   `.____|
 
 EOT
 }
 
-asd
 
 
 
 HEADLESS=Y
 STRIPALL=Y
 OPTIMIZE=Y
-FIRMWARE=Y
+OPENCV=Y
 WIFIHOTSPOT=N
 WIFINTW=Y
 WEBSERVER=Y
@@ -68,8 +55,8 @@ if [ -n "$t1" ]; then STRIPALL="$t1";fi
 read -p "Optimize system? [$OPTIMIZE]: " -e t1
 if [ -n "$t1" ]; then OPTIMIZE="$t1";fi
 
-read -p "Update Firmware? [$FIRMWARE]: " -e t1
-if [ -n "$t1" ]; then FIRMWARE="$t1";fi
+read -p "Install OpenCV? [$OPENCV]: " -e t1
+if [ -n "$t1" ]; then OPENCV="$t1";fi
 
 read -p "Configure Wi-Fi adapter? [$WIFINTW]: " -e t1
 if [ -n "$t1" ]; then WIFINTW="$t1";fi
@@ -94,19 +81,18 @@ START=$SECONDS
 echo -n START
 
 if [ "$WIFINTW" == "Y" ]
-then
- sudo bash setupWiFi.sh
+	then
+	 sudo bash setupWiFi.sh
 fi
 
 
 if [ "$HEADLESS" == "Y" ]
-then
+	then
 
-sudo bash headless.sh
+	sudo bash headless.sh
 
 
 fi
-
 
 sudo locale-gen en_GB.utf8
 sudo locale-gen de_CH.UTF-8
@@ -152,13 +138,14 @@ sudo apt-get -y upgrade
 } #>> log.txt
 
 
-################# Update firmware #################
-if [ "$FIRMWARE" == "Y" ]
+################# Install OpenCV #################
+if [ "$OPENCV" == "Y" ]
 then
-echo -e "***** Updating firmware *****"
-sudo bash /usr/local/bin/kernel_update.sh
+
+sudo bash openCV.sh
+
 else
-    echo "Firmware NOT updated"
+    echo "OpenCV NOT installed"
 fi
 
 
