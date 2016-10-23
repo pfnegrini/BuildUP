@@ -39,7 +39,7 @@ cat <<"EOT"
 
 
         +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+
-           |R|P|i| |i|n|s|t|a|l|l|e|r|
+           |i|n|s|t|a|l|l|e|r|
         +-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+
 
 
@@ -101,14 +101,8 @@ fi
 
 if [ "$HEADLESS" == "Y" ]
 then
- sudo apt-get remove -y --purge libx11-6
- sudo apt-get install -y deborphan
-sudo deborphan
-sudo deborphan --guess-all
 
-sudo apt-get remove -y --purge `deborphan`
-sudo apt-get remove -y --purge `deborphan --guess-all`
-sudo apt-get autoremove -y --purge
+sudo bash headless.sh
 
 
 fi
@@ -124,36 +118,6 @@ if [ "$STRIPALL" == "Y" ]
 then
 {
 echo "*** Stripping down ***"
-
-apt-get autoremove -y dillo
-apt-get autoremove -y xpdf
-apt-get autoremove -y galculator
-apt-get autoremove -y idle-python3.2
-apt-get autoremove -y hicolor-icon-theme
-sudo apt-get purge -y xserver* -y
-sudo apt-get purge -y ^x11 -y
-sudo apt-get purge -y ^libx -y
-sudo apt-get purge -y ^lx -y
-sudo apt-get purge -y samba* -y
-sudo apt-get purge -y supercollider* -y
-sudo apt-get purge -y netsurf* -y
-sudo apt-get purge -y plymouth* -y
-sudo apt-get remove -y task-desktop
-sudo apt-get autoremove -y midori
-sudo apt-get autoremove -y lxde-icon-theme
-sudo apt-get autoremove -y omxplayer
-
-sudo rm -rv /usr/share/icons/*
-sudo rm -rv /opt/vc/src/*
-sudo rm -rv /usr/share/images/*
-sudo rm -rv python_games
-sudo rm -rv /opt/*
-sudo rm -rv /usr/games/
-sudo rm -rv /usr/share/squeak/
-sudo rm -rv /usr/share/sounds/
-sudo rm -rv /usr/share/wallpapers
-sudo rm -rv /usr/share/themes
-sudo rm -rv /usr/share/kde4
 
 
 } #>> log.txt
@@ -236,9 +200,8 @@ if [ "$WEBSERVER" == "Y" ]
 then
 
 echo -e "***** Installing node *****"
-sudo su
-wget http://node-arm.herokuapp.com/node_archive_armhf.deb
-sudo dpkg -i node_archive_armhf.deb
+sudo apt-get instal node
+
 
 exit
 
