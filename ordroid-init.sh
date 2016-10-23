@@ -187,7 +187,15 @@ if [ "$WEBSERVER" == "Y" ]
 then
 
 echo -e "***** Installing node *****"
-sudo apt-get instal node
+
+sudo apt-get install python build-essential
+wget http://nodejs.org/dist/latest/node-v6.9.1.tar.gz
+tar xzvf node-v6.9.1.tar.gz  
+rm node-v6.9.1.tar.gz  
+cd node-v6.9.1
+./configure --without-snapshot
+make
+sudo make install
 
 
 exit
