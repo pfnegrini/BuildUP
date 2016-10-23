@@ -183,7 +183,7 @@ sudo apt-get update
 sudo apt-get autoremove -y  --purge
 sudo apt-get clean
 sudo apt-get -y upgrade
-sudo apt-get -y dist-upgrade
+#sudo apt-get -y dist-upgrade
 
 } #>> log.txt
 
