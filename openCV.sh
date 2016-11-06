@@ -25,6 +25,20 @@ wget https://github.com/opencv/opencv/archive/2.4.13.zip -O opencv.zip
 unzip opencv.zip
 cd opencv
 
+/*
+inflating: opencv-2.4.13/samples/winrt/OcvImageProcessing/OcvImageProcessing/pch.h  
+openCV.sh: line 26: cd: opencv: No such file or directory
+***** Configuring make *****
+CMake Error: The source directory "/home/odroid/BuildUP" does not appear to contain CMakeLists.txt.
+Specify --help for usage, or press the help button on the CMake GUI.
+***** Compiling *****
+make: *** No targets specified and no makefile found.  Stop.
+make: *** No rule to make target 'install'.  Stop.
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+*/
+
 echo -e "***** Configuring make *****"
 mkdir build
 cd build
