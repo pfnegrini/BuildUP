@@ -23,7 +23,7 @@ wget https://github.com/opencv/opencv/archive/2.4.13.zip -O opencv.zip
 #git clone https://github.com/opencv/opencv.git
 #wget -O opencv-2.4.10.zip http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.10/opencv-2.4.10.zip/download
 unzip opencv.zip
-cd opencv
+cd opencv-2.4.13
 
 /*
 inflating: opencv-2.4.13/samples/winrt/OcvImageProcessing/OcvImageProcessing/pch.h  
