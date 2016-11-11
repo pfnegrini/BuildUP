@@ -117,7 +117,7 @@ fi
 if [ "$OPTIMIZE" == "Y" ]
 then
 
-} >> log.txt
+} # >> log.txt
 
 
 
