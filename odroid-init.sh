@@ -94,16 +94,17 @@ if [ "$HEADLESS" == "Y" ]
 
 fi
 
-sudo locale-gen en_GB.utf8
-sudo locale-gen de_CH.UTF-8
-sudo update-locale
-sudo dpkg-reconfigure locales
+#sudo locale-gen en_GB.utf8
+#sudo locale-gen de_CH.UTF-8
+#sudo update-locale
+#sudo dpkg-reconfigure locales
 
 #list all installed packages: dpkg --get-selections
 if [ "$STRIPALL" == "Y" ]
 then
 {
 echo "*** Stripping down ***"
+echo "*** NO script so far.. ***"
 
 
 } #>> log.txt
@@ -113,17 +114,6 @@ else
 fi
 
 ################# Optimization scripts #################
-
-if [ "$OPTIMIZE" == "Y" ]
-then
-{
-} # >> log.txt
-
-
-
-else
-    echo "System tweaks not applied"
-fi
 
 
 echo -e "***** Updating system packages *****"
