@@ -34,7 +34,7 @@ cat <<"EOT"
 EOT
 }
 
-asd
+
 
 
 HEADLESS=Y
@@ -88,7 +88,10 @@ fi
 
 if [ "$HEADLESS" == "Y" ]
 	then
+
 	sudo bash headless.sh
+
+
 fi
 
 #sudo locale-gen en_GB.utf8
@@ -102,11 +105,15 @@ then
 {
 echo "*** Stripping down ***"
 echo "*** NO script so far.. ***"
+
+
 } #>> log.txt
 
 else
     echo "No extra packages removed"
 fi
+
+################# Optimization scripts #################
 
 
 echo -e "***** Updating system packages *****"
@@ -183,7 +190,8 @@ curl http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components=1
 make install # ok, fine, this step probably takes more than 30 seconds...
 curl https://www.npmjs.org/install.sh | sh
 
-#exit
+
+exit
 
 echo -e ""***** Testing Node installation "*****"
 node -v
