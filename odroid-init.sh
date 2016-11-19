@@ -171,6 +171,8 @@ then
 
 echo -e "***** Installing node *****"
 
+#https://gist.github.com/isaacs/579814
+
 sudo apt-get install python build-essential
 
 echo 'export PATH=$HOME/local/bin:$PATH' >> ~/.bashrc
@@ -182,6 +184,7 @@ curl http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components=1
 ./configure --prefix=~/local
 make install # ok, fine, this step probably takes more than 30 seconds...
 curl https://www.npmjs.org/install.sh | sh
+sudo make install
 
 #exit
 

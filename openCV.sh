@@ -1,61 +1,43 @@
-#!/bin/bash
+arch=$(uname -m)
+if [ "$arch" == "i686" -o "$arch" == "i386" -o "$arch" == "i486" -o "$arch" == "i586" ]; then
+flag=1
+else
+flag=0
+fi
+echo "Installing OpenCV 2.4.10"
+mkdir OpenCV
+cd OpenCV
 
-echo -e "***** Setting up  OpenCV *****"
-sudo apt-get install -y build-essential cmake pkg-config
-sudo apt-get install -y libjpeg8-dev libtiff4-dev libjasper-dev libpng12-dev
-sudo apt-get install -y libgtk2.0-dev
-sudo apt-get install -y libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
-sudo apt-get install -y libatlas-base-dev gfortran
-wget https://bootstrap.pypa.io/get-pip.py
-sudo python get-pip.py
-sudo pip install virtualenv virtualenvwrapper
-sudo rm -rf ~/.cache/pip
+echo "Removing any pre-installed ffmpeg and x264"
+sudo apt-get -y remove ffmpeg x264 libx264-dev
 
-# virtualenv and virtualenvwrapper
-export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
-source ~/.profile
-mkvirtualenv cv
+echo "Installing Dependenices"
+sudo apt-get -y install libopencv-dev
+sudo apt-get -y install build-essential checkinstall cmake pkg-config yasm
+sudo apt-get -y install libtiff4-dev libjpeg-dev libjasper-dev
+sudo apt-get -y install libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev libv4l-dev
+sudo apt-get -y install python-dev python-numpy
+sudo apt-get -y install libtbb-dev
+sudo apt-get -y install libqt4-dev libgtk2.0-dev
+sudo apt-get -y install libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev
+sudo apt-get -y install x264 v4l-utils ffmpeg
 
-sudo apt-get install -y python2.7-dev
+# sudo apt-get -y install libgtk2.0-dev # duplicate
 
-#wget https://github.com/opencv/opencv/archive/2.4.13.zip -O opencv.zip
-#git clone https://github.com/opencv/opencv.git
-#wget -O opencv-2.4.10.zip http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.10/opencv-2.4.10.zip/download
-unzip opencv.zip
-cd opencv-2.4.13
-
-/*
-inflating: opencv-2.4.13/samples/winrt/OcvImageProcessing/OcvImageProcessing/pch.h  
-openCV.sh: line 26: cd: opencv: No such file or directory
-***** Configuring make *****
-CMake Error: The source directory "/home/odroid/BuildUP" does not appear to contain CMakeLists.txt.
-Specify --help for usage, or press the help button on the CMake GUI.
-***** Compiling *****
-make: *** No targets specified and no makefile found.  Stop.
-make: *** No rule to make target 'install'.  Stop.
-Reading package lists... Done
-Building dependency tree       
-Reading state information... Done
-*/
-
-echo -e "***** Configuring make *****"
+echo "Downloading OpenCV 2.4.10"
+wget -O OpenCV-2.4.10.zip http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.10/opencv-2.4.10.zip/download
+echo "Installing OpenCV 2.4.10"
+unzip OpenCV-2.4.10.zip
+cd opencv-2.4.10
 mkdir build
 cd build
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_NEW_PYTHON_SUPPORT=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON  -D BUILD_EXAMPLES=ON ..
 
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_PNG=ON WITH_JPEG=ON WITH_LIBV4L=ON WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON ..
 
-echo -e "***** Compiling *****"
-make
-
+make -j4
 sudo make install
+sudo sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
 sudo ldconfig
-
-cd ~/.virtualenvs/cv/lib/python2.7/site-packages/
-ln -s /usr/local/lib/python2.7/site-packages/cv2.so cv2.so
-ln -s /usr/local/lib/python2.7/site-packages/cv.py cv.py
-
-#Needed for python
-sudo apt-get install python-opencv
-
-
+cd ../../..
+rm -rf OpenCV
+echo "OpenCV 2.4.9 ready to be used"
